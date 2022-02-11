@@ -6,7 +6,7 @@ const Navigation = ()=>{
             <ul>
                 <li>
                     <a href='#'>
-                        <span className={styles.item}>logo</span>
+                        <span className={styles.item}>Logo</span>
                     </a>
                 </li>
                 <li>
