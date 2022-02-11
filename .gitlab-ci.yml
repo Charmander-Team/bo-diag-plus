@@ -21,17 +21,17 @@ bo-install:
         - npm install
 
 # 2nd job TEST
-bo-test:
-    stage: test
-    script:
-        - echo maybe later
+# bo-test:
+#     stage: test
+#     script:
+#         - echo maybe later
 
 # 3rd job BUILD
 bo-build:
     # To block npm run build if push on staging because HEROKU did not need it
-    only:
-        refs:
-            - main
+    # only:
+    #     refs:
+    #         - main
     stage: build
     script:
         - npm run build
@@ -42,26 +42,26 @@ bo-build:
             - out
 
 # 4th job STAGING DEPLOY (on Heroku)
-bo-deploy-staging:
-    except:
-        refs:
-            - main
-    stage: deploy
-    image: ruby:latest
-    # NO dependencies because Heroku make build/export himself
-    dependencies: []
-    # Must Use bor Heroku deploy
-    script:
-        - apt-get update -qy
-        - apt-get install -y ruby-dev
-        - gem install dpl
-        - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+# bo-deploy-staging:
+#     except:
+#         refs:
+#             - main
+#     stage: deploy
+#     image: ruby:latest
+#     # NO dependencies because Heroku make build/export himself
+#     dependencies: []
+#     # Must Use bor Heroku deploy
+#     script:
+#         - apt-get update -qy
+#         - apt-get install -y ruby-dev
+#         - gem install dpl
+#         - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
         
 # 5th job PROD DEPLOY (on Digital Ocean VPS)
 bo-deploy-prod:
-    only:
-        refs:
-            - main
+    # only:
+    #     refs:
+    #         - main
     stage: deploy
     # No need to specify
     dependencies:
