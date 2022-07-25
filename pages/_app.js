@@ -1,9 +1,12 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import { Provider as MainContext } from "../src/contexts";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Component {...pageProps} />
-  )
+    <MainContext>
+      <Component {...pageProps} />
+    </MainContext>
+  );
 }
 
-export default MyApp
+export default MyApp;
