@@ -3,81 +3,88 @@ image: node:latest
 
 # 4 stages
 stages:
-    - install
-    - test
-    - build
-    - deploy
+  - install
+  - test
+  - build
+  - deploy
 
 # cache features
 cache:
-    key: node_modules
-    paths:
-        - node_modules/
+  key: node_modules
+  paths:
+    - node_modules/
 
 # 1st job INSTALL
 bo-install:
-    stage: install
-    script:
-        - npm install
+  only:
+    ref:
+      - main
+      - staging
+  stage: install
+  script:
+    - npm install
 
 # 2nd job TEST
 bo-test:
-    stage: test
-    script:
-        - echo maybe later
+  only:
+    ref:
+      - main
+      - staging
+  stage: test
+  script:
+    - echo maybe later
 
 # 3rd job BUILD
 bo-build:
-    # To block npm run build if push on staging because HEROKU did not need it
-    only:
-        refs:
-            - main
-    stage: build
-    script:
-        - npm run build
-    artifacts:
-        name: 'run-build'
-        expire_in: 1 week
-        paths:
-            - out
+  # To block npm run build if push on staging because HEROKU did not need it
+  only:
+    refs:
+      - main
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    name: "run-build"
+    expire_in: 1 week
+    paths:
+      - out
 
 # 4th job STAGING DEPLOY (on Heroku)
 bo-deploy-staging:
-    except:
-        refs:
-            - main
-    stage: deploy
-    image: ruby:latest
-    # NO dependencies because Heroku make build/export himself
-    dependencies: []
-    # Must Use bor Heroku deploy
-    script:
-        - apt-get update -qy
-        - apt-get install -y ruby-dev
-        - gem install dpl
-        - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
-        
+  only:
+    refs:
+      - dev
+  stage: deploy
+  image: ruby:latest
+  # NO dependencies because Heroku make build/export himself
+  dependencies: []
+  # Must Use bor Heroku deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+
 # 5th job PROD DEPLOY (on Digital Ocean VPS)
 bo-deploy-prod:
-    only:
-        refs:
-            - main
-    stage: deploy
-    # No need to specify
-    dependencies:
-        - bo-build
-    before_script:
-        # INSTALL rsync
-        - apt update && apt install openssh-client rsync
-        # ADD SSH KEY
-        - eval $(ssh-agent -s)
-        - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
-        # Create ssh bolder to allow connection
-        - mkdir -p ~/.ssh
-        - chmod 700 ~/.ssh
-        - ssh-keyscan diag-plus.tk >> ~/.ssh/known_hosts
-        - chmod 644 ~/.ssh/known_hosts
-    script:
-        # Copy only out/ bolder (all HTML static inside) in Digital Ocean VPS
-        - rsync -atv --delete --progress ./out root@diag-plus.tk:/var/www/bo-diag-plus
-
+  only:
+    refs:
+      - main
+  stage: deploy
+  # No need to specify
+  dependencies:
+    - bo-build
+  before_script:
+    # INSTALL rsync
+    - apt update && apt install openssh-client rsync
+    # ADD SSH KEY
+    - eval $(ssh-agent -s)
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
+    # Create ssh bolder to allow connection
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan diag-plus.tk >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    # Copy only out/ bolder (all HTML static inside) in Digital Ocean VPS
+    - rsync -atv --delete --progress ./out root@diag-plus.tk:/var/www/bo-diag-plus
