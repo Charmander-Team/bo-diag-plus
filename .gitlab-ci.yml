@@ -17,7 +17,7 @@ cache:
 # 1st job INSTALL
 bo-install:
   only:
-    ref:
+    refs:
       - main
       - staging
   stage: install
@@ -27,7 +27,7 @@ bo-install:
 # 2nd job TEST
 bo-test:
   only:
-    ref:
+    refs:
       - main
       - staging
   stage: test
