@@ -53,7 +53,7 @@ bo-build:
 bo-deploy-staging:
   only:
     refs:
-      - dev
+      - staging
   stage: deploy
   image: ruby:latest
   # NO dependencies because Heroku make build/export himself
