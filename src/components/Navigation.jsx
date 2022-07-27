@@ -11,7 +11,9 @@ const Navigation = () => {
       <ul>
         <li>
           <a href="#">
-            <span className={styles.item}>Logo</span>
+            <span className={styles.item}>
+              <img src="/favicon.png" alt="logo" width="50%" height="50%" />
+            </span>
           </a>
         </li>
         <li>

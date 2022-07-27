@@ -11,7 +11,7 @@ const Patients = () => {
       <Head>
         <title>Diag+ Accueil</title>
         <meta name="description" content="Diagnostique en ligne" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <div className="bg-gray-700 h-screen grid grid-cols-12 py-10">
         <div className="col-start-2 col-span-10 bg-lime-600 rounded-3xl grid grid-cols-8">
