@@ -1,12 +1,10 @@
 import Head from "next/head";
-import Navigation from "../src/components/Navigation";
-import MainContext from "../src/contexts";
+import Navigation from "../../src/components/Navigation";
+import MainContext from "../../src/contexts";
 import { useContext } from "react";
-import { useRouter } from "next/router";
 
-const Home = () => {
+const Patients = () => {
   const { login } = useContext(MainContext);
-  const router = useRouter();
 
   return login ? (
     <div>
@@ -20,7 +18,7 @@ const Home = () => {
           <div className="pl-5">
             <Navigation />
           </div>
-          <div className="col-span-7 bg-white rounded-3xl"></div>
+          <div className="col-span-7 bg-white rounded-3xl">Patients</div>
         </div>
       </div>
     </div>
@@ -29,4 +27,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Patients;
