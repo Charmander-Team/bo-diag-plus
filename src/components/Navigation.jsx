@@ -1,6 +1,7 @@
 import styles from "../../styles/Navigation.module.scss";
 import MainContext from "../contexts";
 import { useContext } from "react";
+import Link from "next/link";
 
 const Navigation = () => {
   const { deconnectedAdmin } = useContext(MainContext);
@@ -10,18 +11,24 @@ const Navigation = () => {
       <ul>
         <li>
           <a href="#">
-            <span className={styles.item}>Logo</span>
+            <span className={styles.item}>
+              <img src="/favicon.png" alt="logo" width="50%" height="50%" />
+            </span>
           </a>
         </li>
         <li>
-          <a href="#">
-            <span className={styles.item}>Accueil</span>
-          </a>
+          <Link href="/">
+            <a href="#">
+              <span className={styles.item}>Accueil</span>
+            </a>
+          </Link>
         </li>
         <li>
-          <a href="#">
-            <span className={styles.item}>Patients</span>
-          </a>
+          <Link href="/patients">
+            <a href="#">
+              <span className={styles.item}>Patients</span>
+            </a>
+          </Link>
         </li>
         <li>
           <a href="#">
