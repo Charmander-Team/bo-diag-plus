@@ -1,5 +1,4 @@
 import Head from "next/head";
-// import Image from "next/image";
 import MainContext from "../src/contexts";
 import { useContext } from "react";
 
@@ -59,7 +58,6 @@ export default function Autentification() {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
                   />
                 </div>
-
                 <div className="flex flex-col pt-4">
                   <label htmlFor="password" className="text-lg">
                     Mot de passe
@@ -72,23 +70,20 @@ export default function Autentification() {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
                   />
                 </div>
-                <input
+                <button
                   onClick={(event) => {
                     connectedAdmin(event, opts);
                   }}
-                  type="submit"
-                  value="Connexion"
                   className="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
-                />
+                >
+                  Connexion
+                </button>
               </form>
             </div>
           </div>
           <div className="w-1/2 shadow-2xl h-screen relative">
             <img
-              layout="fill"
-              objectFit="cover"
               alt="background"
-              priority="true"
               src="https://source.unsplash.com/IXUM4cJynP0"
             />
           </div>
